@@ -8,9 +8,9 @@ load_dotenv(dotenv_path)
 
 
 def get_db_connection():
-    host = os.environ.get('MARIADB_HOST', 'localhost')
+    host = os.environ.get('MARIADB_HOST', 'localcheese')
     port = int(os.environ.get('MARIADB_PORT', 3306))
-    user = os.environ.get('MARIADB_USER', 'root')
+    user = os.environ.get('MARIADB_USER', 'groot')
     password = os.environ.get('MARIADB_PASSWORD', '')
     database = os.environ.get('MARIADB_DATABASE', 'messages')
 
