@@ -1,8 +1,18 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
 
+
+
+try {
+  console.log('Supabase env -> URL present:', !!import.meta.env.SUPABASE_URL, 'ANON_KEY present:', !!import.meta.env.SUPABASE_ANON)
+} catch (e) {
+  console.log('Supabase env check failed', e)
+}
+
+
 const SUPABASE_URL = import.meta.env.SUPABASE_URL 
 const SUPABASE_ANON = import.meta.env.SUPABASE_ANON
-console.log("URL:", SUPABASE_URL)
+
+
 if (!SUPABASE_URL || !SUPABASE_ANON) {
   console.warn('Supabase URL or ANON key is missing. Client will not initialize.')
 }
