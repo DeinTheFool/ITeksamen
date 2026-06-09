@@ -29,7 +29,7 @@
         <button type="submit">Send melding</button>
       </form>
 
-      <section class="messages">
+      <section class="messages" id="meldinger">
         <h2>Nylige</h2>
         {% if messages %}
         <ul>
@@ -46,5 +46,11 @@
         {% endif %}
       </section>
     </main>
+
+    <script>
+      window.SUPABASE_URL = "{{ supabase_url|e }}";
+      window.SUPABASE_ANON = "{{ supabase_anon|e }}";
+    </script>
+    <script type="module" src="/static/script.js"></script>
   </body>
 </html>

@@ -1,7 +1,7 @@
 import os
 
 from flask import Flask, flash, redirect, render_template, request, url_for
-from db import get_db_connection
+from db import insert_message, fetch_messages
 
 
 app = Flask(__name__)
@@ -14,42 +14,45 @@ def index():
     if request.method == 'POST':
         message = request.form.get('message', '').strip()
 
-        try:
-            conn = get_db_connection()
-            cursor = conn.cursor()
-            cursor.execute(
-                  "INSERT INTO messages (message) VALUES (%s)",
-                  (message),
-                )
-            conn.commit()
-            cursor.close()
-            conn.close()
-            success = 'Your message was saved successfully.'
-        except Exception as exc:
-            error = f'Unable to save your message: {exc}'
+        if not message:
+            error = 'Please provide a message.'
+        else:
+            try:
+                # no name/email fields in the current form; store as Anonymous
+                insert_message(name='Anonymous', email=None, message=message)
+                success = 'Your message was saved successfully.'
+            except Exception as exc:
+                error = f'Unable to save your message: {exc}'
 
     messages = []
     try:
-        conn = get_db_connection()
-        cursor = conn.cursor()
-        cursor.execute(
-            "SELECT id, message, time FROM messages ORDER BY time DESC LIMIT 10"
-        )
-        rows = cursor.fetchall()
-        cursor.close()
-        conn.close()
+        rows = fetch_messages(limit=10)
+        # rows from Supabase are dict-like with keys matching column names
         messages = [
             {
-                'id': row[0],
-                'message': row[3],
-                'time': row[4],
+                'id': r.get('id'),
+                'name': r.get('name'),
+                'email': r.get('email'),
+                'message': r.get('message'),
+                'created_at': r.get('created_at'),
             }
-            for row in rows
+            for r in (rows or [])
         ]
     except Exception:
         messages = []
 
-    return render_template('index.html', error=error, success=success, messages=messages)
+    # Pass Supabase client info for the browser script (anon key is safe for public use)
+    supabase_url = os.environ.get('SUPABASE_URL', '')
+    supabase_anon = os.environ.get('SUPABASE_ANON', os.environ.get('SUPABASE_ANON_KEY', os.environ.get('SUPABASE_KEY', '')))
+
+    return render_template(
+        'index.html',
+        error=error,
+        success=success,
+        messages=messages,
+        supabase_url=supabase_url,
+        supabase_anon=supabase_anon,
+    )
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
