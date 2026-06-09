@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, flash, redirect, render_template, request, url_for
+from flask import Flask, flash, redirect, jsonify, render_template, request, url_for
 from db import insert_message, fetch_messages
 
 
@@ -53,6 +53,18 @@ def index():
         supabase_url=supabase_url,
         supabase_anon=supabase_anon,
     )
+
+
+@app.route('/env')
+def env():
+    """Expose selected browser-safe environment values for debugging."""
+    return jsonify({
+        'SUPABASE_URL': os.environ.get('SUPABASE_URL', ''),
+        'SUPABASE_ANON': os.environ.get('SUPABASE_ANON', ''),
+        'SUPABASE_URL_loaded': bool(os.environ.get('SUPABASE_URL')),
+        'SUPABASE_ANON_loaded': bool(os.environ.get('SUPABASE_ANON')),
+    })
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

@@ -10,6 +10,19 @@ if (!SUPABASE_URL || !SUPABASE_ANON) {
 const supa = createClient(SUPABASE_URL, SUPABASE_ANON)
 const listContainer = document.getElementById('meldinger')
 
+console.log('SUPABASE_URL:', SUPABASE_URL)
+console.log('SUPABASE_ANON present:', Boolean(SUPABASE_ANON))
+
+async function logEnvEndpoint() {
+  try {
+    const res = await fetch('/env')
+    const envData = await res.json()
+    console.log('Browser env endpoint data:', envData)
+  } catch (err) {
+    console.warn('Failed to fetch /env endpoint', err)
+  }
+}
+
 async function renderPostList(container) {
   if (!container) return
   container.innerHTML = '<h2>Poster</h2><p>Loading…</p>'
@@ -62,4 +75,5 @@ function escapeHtml(str) {
 }
 
 // Auto-run when loaded
+logEnvEndpoint()
 renderPostList(listContainer)

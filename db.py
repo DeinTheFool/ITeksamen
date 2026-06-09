@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 from supabase import create_client
 
 dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
-load_dotenv()
+load_dotenv(dotenv_path)
 
 
 SUPABASE_URL = os.getenv('SUPABASE_URL')
@@ -43,7 +43,7 @@ def fetch_messages(limit: int = 10):
     Returns a list of dicts (could be empty).
     """
     if _supabase is None:
-        raise RuntimeError('Supabase client not configured. Set SUPABASE_URL and SUPABASE_KEY in .env')
+        raise RuntimeError('Supabase client not configured. Set SUPABASE_URL and SUPABASE_ANON in .env')
 
     resp = (
         _supabase
@@ -58,3 +58,19 @@ def fetch_messages(limit: int = 10):
     if error:
         raise RuntimeError(error)
     return data or []
+
+
+def env_debug():
+    """Return the loaded Supabase environment values for debug checks."""
+    return {
+        'dotenv_path': dotenv_path,
+        'SUPABASE_URL': SUPABASE_URL,
+        'SUPABASE_ANON': bool(SUPABASE_ANON),
+        'supabase_client_configured': _supabase is not None,
+    }
+
+
+if __name__ == '__main__':
+    print('db.py environment debug:')
+    for key, value in env_debug().items():
+        print(f'{key}: {value}')
