@@ -1,18 +1,15 @@
 import os
-
 from dotenv import load_dotenv
 from supabase import create_client
 
 dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
-load_dotenv(dotenv_path)
+load_dotenv()
 
 
-# Create a Supabase client using `SUPABASE_URL` and `SUPABASE_KEY` from .env
-SUPABASE_URL = os.environ.get('SUPABASE_URL')
-SUPABASE_ANON = os.environ.get('SUPABASE_ANON')
+SUPABASE_URL = os.getenv('SUPABASE_URL')
+SUPABASE_ANON = os.getenv('SUPABASE_ANON')
 
 if not SUPABASE_URL or not SUPABASE_ANON:
-    # Client creation will fail later if keys are missing; keep a helpful message
     _supabase = None
 else:
     _supabase = create_client(SUPABASE_URL, SUPABASE_ANON)
