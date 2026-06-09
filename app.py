@@ -11,33 +11,28 @@ def index():
     error = None
     success = None
     if request.method == 'POST':
-        name = request.form.get('name', '').strip()
-        email = request.form.get('email', '').strip()
         message = request.form.get('message', '').strip()
 
-        if not name or not email or not message:
-            error = 'Please provide your name, email, and a message.'
-        else:
-            try:
-                conn = get_db_connection()
-                cursor = conn.cursor()
-                cursor.execute(
-                    "INSERT INTO messages (name, email, message) VALUES (%s, %s, %s)",
-                    (name, email, message),
+        try:
+            conn = get_db_connection()
+            cursor = conn.cursor()
+            cursor.execute(
+                  "INSERT INTO messages (message) VALUES (%s)",
+                  (message),
                 )
-                conn.commit()
-                cursor.close()
-                conn.close()
-                success = 'Your message was saved successfully.'
-            except Exception as exc:
-                error = f'Unable to save your message: {exc}'
+            conn.commit()
+            cursor.close()
+            conn.close()
+            success = 'Your message was saved successfully.'
+        except Exception as exc:
+            error = f'Unable to save your message: {exc}'
 
     messages = []
     try:
         conn = get_db_connection()
         cursor = conn.cursor()
         cursor.execute(
-            "SELECT id, name, email, message, created_at FROM messages ORDER BY created_at DESC LIMIT 10"
+            "SELECT id, message, created_at FROM messages ORDER BY created_at DESC LIMIT 10"
         )
         rows = cursor.fetchall()
         cursor.close()
