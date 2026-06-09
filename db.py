@@ -1,16 +1,25 @@
-import pymysql
 import os
+
+import pymysql
 from dotenv import load_dotenv
 
-load_dotenv(os.path.join(os.path.dirname(__file__), '.env'))
+dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
+load_dotenv(dotenv_path)
+
 
 def get_db_connection():
+    host = os.environ.get('MARIADB_HOST', 'localhost')
+    port = int(os.environ.get('MARIADB_PORT', 3306))
+    user = os.environ.get('MARIADB_USER', 'root')
+    password = os.environ.get('MARIADB_PASSWORD', '')
+    database = os.environ.get('MARIADB_DATABASE', 'messages')
+
     connection = pymysql.connect(
-        host=os.environ.get('MARIADB_HOST', 'localhost'),
-        port=int(os.environ.get('MARIADB_PORT', 3306)),
-        user=os.environ.get('MARIADB_USER', 'root'),
-        password=os.environ.get('MARIADB_PASSWORD', ''),
-        database=os.environ.get('MARIADB_DATABASE', 'messages_db'),
-        cursorclass=pymysql.cursors.DictCursor
+        host=host,
+        port=port,
+        user=user,
+        password=password,
+        database=database,
+        cursorclass=pymysql.cursors.DictCursor,
     )
     return connection
