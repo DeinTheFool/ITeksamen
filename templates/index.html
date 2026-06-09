@@ -9,8 +9,8 @@
   <body>
     <main class="container">
       <section class="hero">
-        <h1>Send a message</h1>
-        <p>Share your thoughts and let us save them in MariaDB.</p>
+        <h1>Send en melding</h1>
+        <p>Brakt til deg av Dneis</p>
       </section>
 
       {% if error %}
@@ -23,14 +23,14 @@
 
       <form action="{{ url_for('index') }}" method="post" class="message-form">
   
-        <label for="message">Message</label>
+        <label for="message">Melding</label>
         <textarea id="message" name="message" rows="5" placeholder="Write your message here" required></textarea>
 
-        <button type="submit">Send message</button>
+        <button type="submit">Send melding</button>
       </form>
 
       <section class="messages">
-        <h2>Recent messages</h2>
+        <h2>Nylige</h2>
         {% if messages %}
         <ul>
           {% for message in messages %}
