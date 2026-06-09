@@ -3,6 +3,7 @@ import os
 from flask import Flask, flash, redirect, render_template, request, url_for
 from db import get_db_connection
 
+
 app = Flask(__name__)
 app.secret_key = os.environ.get("FLASK_SECRET", "change-this-secret")
 
@@ -32,7 +33,7 @@ def index():
         conn = get_db_connection()
         cursor = conn.cursor()
         cursor.execute(
-            "SELECT id, message, created_at FROM messages ORDER BY created_at DESC LIMIT 10"
+            "SELECT id, message, time FROM messages ORDER BY time DESC LIMIT 10"
         )
         rows = cursor.fetchall()
         cursor.close()
@@ -40,10 +41,8 @@ def index():
         messages = [
             {
                 'id': row[0],
-                'name': row[1],
-                'email': row[2],
                 'message': row[3],
-                'created_at': row[4],
+                'time': row[4],
             }
             for row in rows
         ]

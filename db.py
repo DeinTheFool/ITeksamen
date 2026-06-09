@@ -2,6 +2,9 @@ import os
 
 import mariadb
 
+from dotenv import load_dotenv
+load_dotenv()
+
 
 def get_db_connection():
     host = os.environ.get('MARIADB_HOST', 'localhost')
