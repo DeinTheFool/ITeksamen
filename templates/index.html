@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Message Board</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <main class="container">
+      <section class="hero">
+        <h1>Send a message</h1>
+        <p>Share your thoughts and let us save them in MariaDB.</p>
+      </section>
+
+      {% if error %}
+      <div class="alert alert-error">{{ error }}</div>
+      {% endif %}
+
+      {% if success %}
+      <div class="alert alert-success">{{ success }}</div>
+      {% endif %}
+
+      <form action="{{ url_for('index') }}" method="post" class="message-form">
+        <label for="name">Name</label>
+        <input id="name" name="name" type="text" placeholder="Your name" required />
+
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" placeholder="you@example.com" required />
+
+        <label for="message">Message</label>
+        <textarea id="message" name="message" rows="5" placeholder="Write your message here" required></textarea>
+
+        <button type="submit">Send message</button>
+      </form>
+
+      <section class="messages">
+        <h2>Recent messages</h2>
+        {% if messages %}
+        <ul>
+          {% for message in messages %}
+          <li>
+            <strong>{{ message.name }}</strong>
+            <span>{{ message.created_at }}</span>
+            <p>{{ message.message }}</p>
+          </li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <p class="empty-state">No messages yet. Be the first to send one!</p>
+        {% endif %}
+      </section>
+    </main>
+  </body>
+</html>

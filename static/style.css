@@ -1,0 +1,111 @@
+body {
+  margin: 0;
+  font-family: Inter, system-ui, sans-serif;
+  background: #f4f7fb;
+  color: #202124;
+}
+
+.container {
+  max-width: 860px;
+  margin: 40px auto;
+  padding: 24px;
+}
+
+.hero {
+  margin-bottom: 24px;
+}
+
+.hero h1 {
+  margin: 0 0 8px;
+  font-size: 2.4rem;
+}
+
+.hero p {
+  margin: 0;
+  color: #5f6368;
+}
+
+.message-form,
+.messages {
+  background: #fff;
+  border: 1px solid #dde2ea;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 10px 30px rgba(18, 33, 67, 0.06);
+}
+
+.message-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.message-form input,
+.message-form textarea {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid #cbd4e1;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  font-size: 1rem;
+}
+
+.message-form button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 14px 20px;
+  border: none;
+  border-radius: 12px;
+  color: white;
+  background: #2b6cb0;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.alert {
+  margin-bottom: 16px;
+  padding: 14px 18px;
+  border-radius: 12px;
+}
+
+.alert-error {
+  background: #ffe3e3;
+  color: #822727;
+}
+
+.alert-success {
+  background: #e6ffed;
+  color: #1f6d2c;
+}
+
+.messages ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.messages li {
+  border-bottom: 1px solid #edf0f5;
+  padding: 18px 0;
+}
+
+.messages li:last-child {
+  border-bottom: none;
+}
+
+.messages strong {
+  display: block;
+  font-size: 1rem;
+}
+
+.messages span {
+  display: block;
+  margin-top: 4px;
+  color: #6b7280;
+}
+
+.empty-state {
+  color: #5f6368;
+  margin: 0;
+}
