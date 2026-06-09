@@ -2,7 +2,7 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 
 const SUPABASE_URL = import.meta.env.SUPABASE_URL 
 const SUPABASE_ANON = import.meta.env.SUPABASE_ANON
-
+console.log("URL:", SUPABASE_URL)
 if (!SUPABASE_URL || !SUPABASE_ANON) {
   console.warn('Supabase URL or ANON key is missing. Client will not initialize.')
 }
